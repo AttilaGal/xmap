@@ -32,7 +32,7 @@ defmodule XMax.Mixfile do
   defp deps do
     [
       {:credo, "~> 0.8.10", only: :dev},
-      {:ex_doc, "~> 0.18.1", only: :docs}
+      {:ex_doc, ">= 0.0.0", only: :dev}
     ]
   end
 
