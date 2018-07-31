@@ -1,4 +1,4 @@
-defmodule XMap.Cover do
+defmodule XMax.Cover do
   @moduledoc """
   Wrapper class for Erlang's cover tool.
   """

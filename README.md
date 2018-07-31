@@ -1,40 +1,58 @@
-# XMap
+# XMax
 
-[![Build Status](https://travis-ci.org/fertapric/xmap.svg?branch=master)](https://travis-ci.org/fertapric/xmap)
+[![Build Status](https://travis-ci.org/fertapric/xmax.svg?branch=master)](https://travis-ci.org/fertapric/xmax)
 
 XML to Map converter.
 
-XMap transforms an XML string into a [`Map`](https://hexdocs.pm/elixir/Map.html) containing a collection of pairs where the key is the node name and the value is its content.
+XMax transforms an XML string into a [`Map`](https://hexdocs.pm/elixir/Map.html) containing a collection of pairs
+  where the key is the node name and the value is its content.
+
+  XMax was originally forked from XMap. There are 2 notable difference between the packages:
+
+  1) XMax will also map xml attributes. This does however cause for larger mapped objects.
+  Attributes are mapped to the `"$"` key, while contents are mapped to the `"_"` key. If you know
+  you're never going to need xml attributes, XMap may be a better fit.
+
+  2) XMax does not support atom keys, it's usually not a good idea to generate atoms on the fly.
+  So to prevent unexpected memory leaks, this feature has been ommitted
+
 
 ## Examples
 
 Here is an example:
 
 ```elixir
-iex> xml = """
-...> <?xml version="1.0" encoding="UTF-8"?>
-...> <blog>
-...>   <post>
-...>     <title>Hello Elixir!</title>
-...>   </post>
-...>   <post>
-...>     <title>Hello World!</title>
-...>   </post>
-...> </blog>
-...> """
-iex> XMap.from_xml(xml)
-%{"blog" => %{"post" => [%{"title" => "Hello Elixir!"},
-                         %{"title" => "Hello World!"}]}}
-iex> XMap.from_xml(xml, keys: :atoms)
-%{blog: %{post: [%{title: "Hello Elixir!"}, %{title: "Hello World!"}]}}
+      iex> xml = """
+      ...> <?xml version="1.0" encoding="UTF-8"?>
+      ...> <blog>
+      ...>   <post>
+      ...>     <title>Hello Elixir!</title>
+      ...>   </post>
+      ...>   <post>
+      ...>     <title>Hello World!</title>
+      ...>   </post>
+      ...> </blog>
+      ...> """
+      iex> XMax.from_xml(xml)
+      %{
+        "blog" => %{
+          "$" => %{},
+          "_" => %{
+            "post" => [
+              %{
+                "$" => %{},
+                "_" => %{"title" => %{"$" => %{}, "_" => "Hello Elixir!"}}
+              },
+              %{
+                "$" => %{},
+                "_" => %{"title" => %{"$" => %{}, "_" => "Hello World!"}}
+              }
+            ]
+          }
+        }
+      }
 ```
 
-Keys can be converted to atoms with the `keys: :atoms` option. Unless you absolutely know what you're doing, do not use the `keys: :atoms` option.
-Atoms are not garbage-collected, see Erlang Efficiency Guide for more info:
-
-> Atoms are not garbage-collected. Once an atom is created, it will never
-> be removed. The emulator will terminate if the limit for the number of
-> atoms (1048576 by default) is reached.
 
 ## Installation
 
@@ -42,7 +60,7 @@ Add XMap to your project's dependencies in `mix.exs`:
 
 ```elixir
 def deps do
-  [{:xmap, "~> 0.2"}]
+  [{:xmax, "~> 1.0"}]
 end
 ```
 
@@ -54,19 +72,19 @@ $ mix deps.get
 
 ## Documentation
 
-Documentation is available at https://hexdocs.pm/xmap
+Documentation is available at https://hexdocs.pm/xmax
 
 ## Contributing
 
-Bug reports and pull requests are welcome on GitHub at https://github.com/fertapric/xmap. This project is intended to be a safe, welcoming space for collaboration, and contributors are expected to adhere to the [Contributor Covenant](http://contributor-covenant.org) code of conduct.
+Bug reports and pull requests are welcome on GitHub at https://github.com/Attila/xmax. This project is intended to be a safe, welcoming space for collaboration, and contributors are expected to adhere to the [Contributor Covenant](http://contributor-covenant.org) code of conduct.
 
 ### Running tests
 
 Clone the repo and fetch its dependencies:
 
 ```shell
-$ git clone git@github.com:fertapric/xmap.git
-$ cd xmap
+$ git clone git@github.com:attilagal/xmax.git
+$ cd xmax
 $ mix deps.get
 $ mix test
 ```
@@ -79,6 +97,6 @@ $ mix docs
 
 ## Copyright and License
 
-Copyright 2017 Fernando Tapia Rico
+Copyright 2018 Attila Gal
 
-XMap source code is licensed under the [MIT License](LICENSE).
+XMax source code is licensed under the [MIT License](LICENSE).

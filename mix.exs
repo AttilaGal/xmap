@@ -1,12 +1,12 @@
-defmodule XMap.Mixfile do
+defmodule XMax.Mixfile do
   use Mix.Project
 
-  @version "0.2.4"
+  @version "1.0.0"
 
   def project do
     [
-      app: :xmap,
-      name: "XMap",
+      app: :xmax,
+      name: "XMax",
       version: @version,
       elixir: "~> 1.4",
       elixirc_paths: elixirc_paths(Mix.env),
@@ -15,7 +15,7 @@ defmodule XMap.Mixfile do
       preferred_cli_env: [docs: :docs],
       description: description(),
       docs: docs(),
-      test_coverage: [tool: XMap.Cover]
+      test_coverage: [tool: XMax.Cover]
     ]
   end
 
@@ -44,9 +44,9 @@ defmodule XMap.Mixfile do
 
   defp package do
     [
-      maintainers: ["Fernando Tapia Rico"],
+      maintainers: ["Attila Gal"],
       licenses: ["MIT"],
-      links: %{"GitHub" => "https://github.com/fertapric/xmap"},
+      links: %{"GitHub" => "https://github.com/AttilaGal/xmax"},
       files: ~w(mix.exs LICENSE README.md lib)
     ]
   end
@@ -54,9 +54,9 @@ defmodule XMap.Mixfile do
   defp docs do
     [
       source_ref: "v#{@version}",
-      main: "XMap",
-      canonical: "http://hexdocs.pm/xmap",
-      source_url: "https://github.com/fertapric/xmap"
+      main: "XMax",
+      canonical: "http://hexdocs.pm/xmax",
+      source_url: "https://github.com/AttilaGal/xmax"
     ]
   end
 end
